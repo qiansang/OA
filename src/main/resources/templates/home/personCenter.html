@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="/assets/css/layui.css">
+    <link rel="stylesheet" href="/assets/css/view.css"/>
+    <title></title>
+</head>
+<body class="layui-view-body">
+<div class="layui-content">
+    <div class="layui-row layui-col-space20">
+        <div class="layui-col-sm12 layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-body chart-card">
+                    <button class="layui-btn layui-btn" id="editPwd">修改密码</button>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-sm12 layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-tab layui-tab-brief">
+                    <ul class="layui-tab-title">
+                        <li class="layui-this">登录记录</li>
+                        <li>操作记录</li>
+                    </ul>
+                    <div class="layui-tab-content">
+                        <div class="layui-tab-item layui-show">
+                            暂未开通
+                        </div>
+                        <div class="layui-tab-item">
+                            暂未开通
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="userModel" style="display: none;">
+    <form class="layui-form" action="" style="margin-left: 60px;margin-top: 20px;">
+             <div class="layui-form-item" style='display: none'>
+               <label class="layui-form-label"><span style="color:red">*</span>id</label>
+                <div class="layui-input-inline">
+                       <input type="text" name="id"  placeholder="请输入id" lay-verify="required" id="userid" autocomplete="off" class="layui-input">
+                   </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label"><span style="color:red">*</span>用户名</label>
+                <div class="layui-input-inline">
+                        <input type="text" name="username"  placeholder="请输入用户名" readonly='readonly' id="username" lay-verify="required" autocomplete="off" class="layui-input">
+                    </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label"><span style="color:red">*</span>密码</label>
+                <div class="layui-input-inline">
+                        <input type="password" name="password"  placeholder="请输入新密码" lay-verify="required" autocomplete="off" class="layui-input">
+                    </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn layui-btn" lay-submit="" lay-filter="editBtn">提交</button>
+                    <button class="layui-btn layui-btn" lay-filter="quxiao">取消</button>
+                </div>
+            </div>
+    </form>
+</div>
+<script src="/common/jquery-3.1.1.min.js"></script>
+<script src="/assets/layui.all.js"></script>
+<script src="/common/MD5.js"></script>
+<script>
+
+    var user;
+    $(function () {
+        $.ajax({
+            type:"POST",
+            url:"getUserByUsername",
+            success:function (data) {
+                if(data.code == 200){
+                    user = data.data;
+                }
+            }
+        });
+    });
+
+    $("#editPwd").click(function () {
+        $("#userid").attr("value", user.id);
+        $("#username").attr("value", user.username);
+        layer.open({
+            type:1,
+            title:"修改密码",
+            area: ['500px','350px'],
+            content:$("#userModel").html()
+        });
+        getResult();
+    });
+
+
+    function getResult(){
+        layui.use(['form'], function () {
+            var form = layui.form;
+
+            form.on('submit(editBtn)', function (data) {
+                var user = data.field;
+                user.password = hex_md5(user.password);
+                layer.confirm('您确认要修改吗？', {
+                    btn: ['确认','取消'] //按钮
+                }, function(){
+                    $.ajax({
+                        url: 'editPassword',
+                        type: 'post',
+                        data: JSON.stringify(user),
+                        contentType : "application/json",
+                        dataType: 'JSON',
+                        success: function (res) {
+                            if (res.code == 200) {
+                                layer.closeAll();
+                                layer.alert('修改成功！', {icon: 1});
+                            }else {
+                                layer.open({
+                                    title: '提示'
+                                    ,content: '修改失败！' + res.msg
+                                });
+                            }
+                        },
+                        error: function (data) {
+                            layer.open({
+                                title: '提示'
+                                ,content: '修改失败！未知原因，请联系管理员。'
+                            });
+                        }
+                    });
+                }, function(){
+                    layer.msg('已取消..');
+                    return false;
+                });
+                return false;
+            });
+        })
+    }
+</script>
+</body>
+</html>

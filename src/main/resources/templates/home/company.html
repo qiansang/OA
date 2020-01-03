@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="/assets/css/layui.css">
+    <link rel="stylesheet" href="/assets/css/view.css"/>
+    <title></title>
+    <style>
+        a{
+            cursor:pointer;
+        }
+        span{
+            color: #BEBEBE;
+        }
+        .layui-table-cell{
+            height: auto;
+            white-space: normal;
+        }
+        .scrollbar {
+            max-height: 200px;
+            padding: 0;
+            margin: 0;
+            overflow-y: scroll;
+            overflow: auto;
+        }
+        .style-1::-webkit-scrollbar-track {
+            -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            background-color: #F5F5F5;
+        }
+
+        .style-1::-webkit-scrollbar {
+            width: 6px;
+            height: 0px;
+            background-color: #F5F5F5;
+        }
+
+        .style-1::-webkit-scrollbar-thumb {
+            border-radius: 10px;
+            -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
+            background-color: #ccc;
+        }
+        td{
+            word-wrap:break-word;
+            word-break:break-all;
+        }
+        .layui-table-cell{
+            overflow: visible;
+        }
+        .layui-layer-tips{
+            display: none
+        }
+        .layui-table td{
+            font-size: 12px;
+        }
+        .layui-table-grid-down{
+            display: none;
+        }
+    </style>
+</head>
+<body class="layui-view-body">
+    <div class="layui-content">
+        <div class="layui-row">
+                <div class="layui-card">
+                    <div class="layui-card-body chart-card">
+                        <div class="chart-body">
+                            <div><span>类型：</span><a id="type_0" onclick="getStyle(0)">不限</a>&nbsp;&nbsp;<a id="type_1"  onclick="getStyle(1)">个人证书</a>&nbsp;&nbsp;<a id="type_2"  onclick="getStyle(2)">企业寻证</a></div>
+                            <div><span>分类：</span><span id="title"></span></div>
+                            <div style="display: none;" id="professionDiv"><span>专业：</span><span id="profession"></span></div>
+                            <div><span>省份：</span><a id="provinces_0" onclick="getProvinces(0, 0)">不限</a>&nbsp;&nbsp;<a id="provinces_1"  onclick="getProvinces(1, 0)">北京</a>&nbsp;&nbsp;<a id="provinces_2"  onclick="getProvinces(2, 0)">天津</a>
+                                &nbsp;&nbsp;<a id="provinces_3"  onclick="getProvinces(3, 0)">河北</a>&nbsp;&nbsp;<a id="provinces_4"  onclick="getProvinces(4, 0)">山西</a>&nbsp;&nbsp;<a id="provinces_5"  onclick="getProvinces(5, 0)">内蒙古</a>
+                                &nbsp;&nbsp;<a id="provinces_6"  onclick="getProvinces(6, 0)">辽宁</a>&nbsp;&nbsp;<a id="provinces_7"  onclick="getProvinces(7, 0)">吉林</a>&nbsp;&nbsp;<a id="provinces_8"  onclick="getProvinces(8, 0)">黑龙江</a>
+                                &nbsp;&nbsp;<a id="provinces_9"  onclick="getProvinces(9, 0)">上海</a>&nbsp;&nbsp;<a id="provinces_10"  onclick="getProvinces(10, 0)">江苏</a>&nbsp;&nbsp;<a id="provinces_11"  onclick="getProvinces(11, 0)">浙江</a>
+                                &nbsp;&nbsp;<a id="provinces_12"  onclick="getProvinces(12, 0)">安徽</a>&nbsp;&nbsp;<a id="provinces_13"  onclick="getProvinces(13, 0)">福建</a>&nbsp;&nbsp;<a id="provinces_14"  onclick="getProvinces(14, 0)">江西</a>
+                                &nbsp;&nbsp;<a id="provinces_15"  onclick="getProvinces(15, 0)">山东</a>&nbsp;&nbsp;<a id="provinces_16"  onclick="getProvinces(16, 0)">河南</a>&nbsp;&nbsp;<a id="provinces_17"  onclick="getProvinces(17, 0)">湖北</a>
+                                &nbsp;&nbsp;<a id="provinces_18"  onclick="getProvinces(18, 0)">湖南</a>&nbsp;&nbsp;<a id="provinces_19"  onclick="getProvinces(19, 0)">广东</a>&nbsp;&nbsp;<a id="provinces_20"  onclick="getProvinces(20, 0)">广西</a>
+                                &nbsp;&nbsp;<a id="provinces_21"  onclick="getProvinces(21, 0)">海南</a>&nbsp;&nbsp;<a id="provinces_22"  onclick="getProvinces(22, 0)">重庆</a>&nbsp;&nbsp;<a id="provinces_23"  onclick="getProvinces(23, 0)">四川</a>
+                                &nbsp;&nbsp;<a id="provinces_24"  onclick="getProvinces(24, 0)">贵州</a>&nbsp;&nbsp;<a id="provinces_25"  onclick="getProvinces(25, 0)">云南</a>&nbsp;&nbsp;<a id="provinces_26"  onclick="getProvinces(26, 0)">西藏</a>
+                                &nbsp;&nbsp;<a id="provinces_27"  onclick="getProvinces(27, 0)">陕西</a>&nbsp;&nbsp;<a id="provinces_28"  onclick="getProvinces(28, 0)">甘肃</a>&nbsp;&nbsp;<a id="provinces_29"  onclick="getProvinces(29, 0)">青海</a>
+                                &nbsp;&nbsp;<a id="provinces_30"  onclick="getProvinces(30, 0)">宁夏</a>&nbsp;&nbsp;<a id="provinces_31"  onclick="getProvinces(31, 0)">新疆</a>&nbsp;&nbsp;<a id="provinces_32"  onclick="getProvinces(32, 0)">香港</a>
+                                &nbsp;&nbsp;<a id="provinces_33"  onclick="getProvinces(33, 0)">澳门</a>
+                            </div>
+                            <div><span>注册：</span><a id="register_0" onclick="getRegister(0, 0)">不限</a>&nbsp;&nbsp;<a id="register_1" onclick="getRegister(1, 0)">初始</a>&nbsp;&nbsp;<a id="register_2" onclick="getRegister(2, 0)">转注</a>&nbsp;&nbsp;<a id="register_3" onclick="getRegister(3, 0)">均可</a></div>
+                            <div id="showManager" style="display: none"><span>业务：</span><span id="manager"></span></div>
+                            <div><span>意向：</span><span id="idea"></span></div>
+                            <div><span>来源：</span><span id="source"></span></div>
+                            <!--<div><span>到期：</span><a id="toDate_0" onclick="getToDate(0)">不限</a>&nbsp;&nbsp;<a id="toDate_1" onclick="getToDate(1)">合同快到期</a></div>-->
+                            <div><span>日期：</span><a id="date_0" onclick="getDate(0)">不限</a>&nbsp;&nbsp;<div class='layui-input-inline'><input type='text' class='layui-input date-item' readonly='readonly' style="width: 100px;height: 25px;" id='updateDate' placeholder='yyyy-MM-dd'></div></div>
+                            <div><span>搜索：</span>&nbsp;<div class='layui-input-inline' style='width: 187px;'><select name='phoneType' id='phoneType'><option value='1'>手机号</option><option value='2'>电话</option></select></div><div class='layui-input-inline' style="margin-left: -100px;"><input type='text' class='layui-input' style="width: 160px;height: 25px;" id='selectAll'></div><div class='layui-input-inline' style="margin-left: 10px;"><button class="layui-btn layui-btn-xs" id="enterFind">搜索</button></div><div class='layui-input-inline' style="margin-left: 10px;"><button class="layui-btn layui-btn-xs" id="resetFind">重置</button></div></div>
+                        </div>
+                    </div>
+            </div>
+        </div>
+        <div class="layui-row">
+            <div class="layui-card">
+                <div class="layui-card-body">
+                    <div class="form-box">
+                        <table class="layui-hide" id="table_test"></table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="/common/jquery-3.1.1.min.js"></script>
+    <script src="/assets/layui.all.js"></script>
+    <script src="/common/customer.js"></script>
+    <script src="/common/company.js"></script>
+</body>
+<script>
+    var type_num="", title_num="", profession_num="", provinces_num="", register_num="", idea_num="", source_num="", updateDate=null, date_num="", userId="";
+    var provinceName,registerName;
+    layui.use('laydate', function() {
+        var laydate = layui.laydate;
+
+        //常规用法
+        laydate.render({
+            elem: '#updateDate'
+            , range: '~'
+        });
+    })
+    
+    $(function () {
+        $.ajax({
+            type:"POST",
+            url:"getUserByUsername",
+            success:function (data) {
+                if(data.code == 200){
+                    user = data.data;
+                    $("#name").text(user.name);
+                    if(user.roleId == 1){
+                        $("#showManager").show();
+                    }
+                    $.ajax({
+                        type:"POST",
+                        url:"getAllUser",
+                        success:function (data) {
+                            if(data.code == 200){
+                                var html = "<a id='user_0' onclick='getUserId(0)'>不限</a>";
+                                userList = eval(data.data);
+                                $("#manager").html();
+                                for(var i = 0; i < userList.length; i++){
+                                    html += "&nbsp;&nbsp;<a  id='user_" + userList[i].id + "' onclick='getUserId(" + userList[i].id + ")'>" + userList[i].name + "</a>";
+                                }
+                                $("#manager").html(html);
+                            }else{
+                                layer.alert(data.msg);
+                            }
+                        }
+                    });
+                }else{
+                    layer.open({
+                        content: data.msg,
+                        yes: function(index, layero){
+                            window.location.href="../index";
+                        }
+                    });
+                }
+            }
+        });
+    });
+
+</script>
+</html>
