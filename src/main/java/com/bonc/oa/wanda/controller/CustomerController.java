@@ -70,7 +70,7 @@ public class CustomerController {
         try {
             return new ResultResponse(200, "", customerService.getAllTitle());
         }catch (Exception e){
-            logger.error("[CustomerController] getTitle error: " + e.getMessage());
+            logger.error("[CustomerController] getTitle error: ", e);
             return new ResultResponse(400, e.getMessage(), null);
         }
     }
@@ -81,7 +81,7 @@ public class CustomerController {
         try {
             return new ResultResponse(200, "", customerService.getProfessionByTitleId(titleId));
         }catch (Exception e){
-            logger.error("[CustomerController] getProfessionByTitleId error: " + e.getMessage());
+            logger.error("[CustomerController] getProfessionByTitleId error: ", e);
             return new ResultResponse(400, e.getMessage(), null);
         }
     }
@@ -92,7 +92,7 @@ public class CustomerController {
         try {
             return new ResultResponse(200, "", customerService.getAllProfession());
         }catch (Exception e){
-            logger.error("[CustomerController] getAllProfession error: " + e.getMessage());
+            logger.error("[CustomerController] getAllProfession error: ", e);
             return new ResultResponse(400, e.getMessage(), null);
         }
     }
@@ -103,7 +103,7 @@ public class CustomerController {
         try {
             return new ResultResponse(200, "", customerService.getAllIdea());
         }catch (Exception e){
-            logger.error("[CustomerController] getIdea error: " + e.getMessage());
+            logger.error("[CustomerController] getIdea error: ", e);
             return new ResultResponse(400, e.getMessage(), null);
         }
 
@@ -115,7 +115,7 @@ public class CustomerController {
         try {
             return new ResultResponse(200, "", customerService.getAllSource());
         }catch (Exception e){
-            logger.error("[CustomerController] getSource error: " + e.getMessage());
+            logger.error("[CustomerController] getSource error: ", e);
             return new ResultResponse(400, e.getMessage(), null);
         }
     }
@@ -137,7 +137,25 @@ public class CustomerController {
             map.put("count", allCustomerInfo.get("count"));
             map.put("code", 0);
         }catch (Exception e){
-            logger.error("[CustomerController] getCompanyInfo error: " + e.getMessage());
+            logger.error("[CustomerController] getCompanyInfo error: " , e);
+            map.put("msg", e.getMessage());
+            map.put("code", 1);
+        }
+        return map;
+    }
+
+    @RequestMapping("/getCustomerInfoForAllUser")
+    @ResponseBody
+    public Map<String, Object> getCustomerInfoForAllUser(int pageNumber, int pageSize, Integer type, Integer titleId, Integer professionId, String provinces, String register, Integer manager,
+                                              Integer ideaId, Integer sourceId, String updateDate, String phone, String call){
+        Map<String, Object> map = new HashMap<String, Object>();
+        try {
+            Map<String, Object> allCustomerInfo = customerService.getAllCustomerInfo(pageNumber, pageSize, type, titleId, professionId, provinces, register, manager, ideaId, sourceId, updateDate, phone, call, 0);
+            map.put("rows", allCustomerInfo.get("rows"));
+            map.put("count", allCustomerInfo.get("count"));
+            map.put("code", 0);
+        }catch (Exception e){
+            logger.error("[CustomerController] getCustomerInfoForAllUser error: ", e);
             map.put("msg", e.getMessage());
             map.put("code", 1);
         }
@@ -186,7 +204,7 @@ public class CustomerController {
             map.put("count", allCustomerInfo.get("count"));
             map.put("code", 0);
         }catch (Exception e){
-            logger.error("[CustomerController] getUserInfo error: " + e.getMessage());
+            logger.error("[CustomerController] getUserInfo error: ", e);
             map.put("msg", e.getMessage());
             map.put("code", 1);
         }
@@ -199,7 +217,7 @@ public class CustomerController {
         try {
             return new ResultResponse(200, "", userService.getRole());
         }catch (Exception e){
-            logger.error("[CustomerController] getUser error: " + e.getMessage());
+            logger.error("[CustomerController] getUser error: " , e);
             return new ResultResponse(400, e.getMessage(), null);
         }
     }
@@ -210,7 +228,7 @@ public class CustomerController {
         try {
             return new ResultResponse(200, "", customerService.getSafe());
         }catch (Exception e){
-            logger.error("[CustomerController] getSafe error: " + e.getMessage());
+            logger.error("[CustomerController] getSafe error: ", e);
             return new ResultResponse(400, e.getMessage(), null);
         }
     }
@@ -234,7 +252,7 @@ public class CustomerController {
             return new ResultResponse(200, "", null);
         }catch (Exception e){
             logger.info("[管理员:" + user1.getName() + "] 添加用户：" + user.getName() +" 失败！");
-            logger.error("[CustomerController] addUser error: " + e.getMessage());
+            logger.error("[CustomerController] addUser error: ", e);
             return new ResultResponse(400, e.getMessage(), null);
         }
     }
@@ -253,7 +271,7 @@ public class CustomerController {
             return new ResultResponse(200, "", null);
         }catch (Exception e){
             logger.error("[管理员:" + user1.getName() + "] 重置用户密码成功！该用户编号为：" + id);
-            logger.error("[CustomerController] reSetPwd error: " + e.getMessage());
+            logger.error("[CustomerController] reSetPwd error: ", e);
             return new ResultResponse(400, e.getMessage(), null);
         }
     }
@@ -279,7 +297,7 @@ public class CustomerController {
             return new ResultResponse(200, "", null);
         }catch (Exception e){
             logger.info("[管理员:" + user1.getName() + "] 删除用户失败！该用户编号为：" + id);
-            logger.error("[CustomerController] deleteUser error: " + e.getMessage());
+            logger.error("[CustomerController] deleteUser error: ", e);
             return new ResultResponse(400, e.getMessage(), null);
         }
     }
@@ -301,7 +319,7 @@ public class CustomerController {
             return new ResultResponse(200, "", null);
         }catch (Exception e){
             logger.info("[管理员:" + user1.getName() + "] 修改用户状态失败！该用户编号为：" + id);
-            logger.error("[CustomerController] lockUser error: " + e.getMessage());
+            logger.error("[CustomerController] lockUser error: " , e);
             return new ResultResponse(400, e.getMessage(), null);
         }
     }
@@ -323,7 +341,7 @@ public class CustomerController {
             return new ResultResponse(200, "", null);
         }catch (Exception e){
             logger.info("[管理员:" + user1.getName() + "] 编辑用户失败！该用户信息未被改为：" + user.toString());
-            logger.error("[CustomerController] editUser error: " + e.getMessage());
+            logger.error("[CustomerController] editUser error: ", e);
             return new ResultResponse(400, e.getMessage(), null);
         }
     }
@@ -339,7 +357,7 @@ public class CustomerController {
             return new ResultResponse(200, "", null);
         }catch (Exception e){
             logger.info("[用户:" + user1.getName() + "] 编辑现有人员详细失败！该客户:["+customerInfo.getCompanyName()+"]现有人员信息未被改为：" + customerInfo.getDetail());
-            logger.error("[CustomerController] editDetail error: " + e.getMessage());
+            logger.error("[CustomerController] editDetail error: ", e);
             return new ResultResponse(400, e.getMessage(), null);
         }
     }
@@ -356,7 +374,7 @@ public class CustomerController {
             return new ResultResponse(200, "", null);
         }catch (Exception e){
             logger.info("[用户:" + user1.getName() + "] 编辑客户证书专业失败！该客户编号为:["+id+"]");
-            logger.error("[CustomerController] editTitleAndProfessionById error: " + e.getMessage());
+            logger.error("[CustomerController] editTitleAndProfessionById error: ", e);
             return new ResultResponse(400, e.getMessage(), null);
         }
     }
@@ -374,7 +392,7 @@ public class CustomerController {
         }catch (Exception e){
             logger.info("[用户:" + user1.getName() + "] 编辑客户联系信息失败！该客户编号为:["+customerInfoDto.getId()+"]，联系信息未被改为：" + customerInfoDto.getPhone() + "," + customerInfoDto.getPhone1()
                     + "," + customerInfoDto.getPhone2() + ",cal: " + customerInfoDto.getCall()  + ", QQ: " + customerInfoDto.getQq() + ",email: " + customerInfoDto.getEmail());
-            logger.error("[CustomerController] editPhoneInfo error: " + e.getMessage());
+            logger.error("[CustomerController] editPhoneInfo error: ", e);
             return new ResultResponse(400, e.getMessage(), null);
         }
     }
@@ -396,7 +414,7 @@ public class CustomerController {
                     +", 地址：" + customerInfoDto.getCompanyAddress()+", 法人：" + customerInfoDto.getCompanyLegal()+", 资金：" + customerInfoDto.getCompanyMoney()
                     +", 注册地址：" + customerInfoDto.getCompanyRegistAddress() +", 成立日期：" + customerInfoDto.getCompanyDate()+", -：" + customerInfoDto.getCompanySignday()
             );
-            logger.error("[CustomerController] editCompanyInfo error: " + e.getMessage());
+            logger.error("[CustomerController] editCompanyInfo error: ", e);
             return new ResultResponse(400, e.getMessage(), null);
         }
     }
@@ -412,7 +430,7 @@ public class CustomerController {
             return new ResultResponse(200, "", null);
         }catch (Exception e){
             logger.info("[用户:" + user1.getName() + "] 编辑客户地区失败！该客户编号:["+id+"] 地区信息未被改为：" +address);
-            logger.error("[CustomerController] editAddress error: " + e.getMessage());
+            logger.error("[CustomerController] editAddress error: ", e);
             return new ResultResponse(400, e.getMessage(), null);
         }
     }
@@ -428,7 +446,7 @@ public class CustomerController {
             return new ResultResponse(200, "", null);
         }catch (Exception e){
             logger.info("[用户:" + user1.getName() + "] 编辑客户意愿失败！该客户编号:["+id+"] 意愿编号未被改为：" +ideaId);
-            logger.error("[CustomerController] editCustomerIdea error: " + e.getMessage());
+            logger.error("[CustomerController] editCustomerIdea error: ", e);
             return new ResultResponse(400, e.getMessage(), null);
         }
     }
@@ -444,7 +462,7 @@ public class CustomerController {
             return new ResultResponse(200, "", null);
         }catch (Exception e){
             logger.info("[用户:" + user1.getName() + "] 编辑客户来源失败！该客户编号:["+id+"] 来源编号未被改为：" +sourceId);
-            logger.error("[CustomerController] editCustomerSource error: " + e.getMessage());
+            logger.error("[CustomerController] editCustomerSource error: ", e);
             return new ResultResponse(400, e.getMessage(), null);
         }
     }
@@ -460,7 +478,7 @@ public class CustomerController {
             return new ResultResponse(200, "", null);
         }catch (Exception e){
             logger.info("[用户:" + user1.getName() + "] 编辑客户注册类型失败！该客户编号:["+id+"] 注册类型未被改为：" +register);
-            logger.error("[CustomerController] editRegister error: " + e.getMessage());
+            logger.error("[CustomerController] editRegister error: ", e);
             return new ResultResponse(400, e.getMessage(), null);
         }
     }
@@ -476,7 +494,7 @@ public class CustomerController {
             return new ResultResponse(200, "", null);
         }catch (Exception e){
             logger.info("[用户:" + user1.getName() + "] 添加客户备注失败！该客户编号:["+id+"] 添加备注：" +record +" 失败！");
-            logger.error("[CustomerController] addRecord error: " + e.getMessage());
+            logger.error("[CustomerController] addRecord error: ", e);
             return new ResultResponse(400, e.getMessage(), null);
         }
     }
@@ -492,7 +510,7 @@ public class CustomerController {
             return new ResultResponse(200, "", null);
         }catch (Exception e){
             logger.info("[用户:" + user1.getName() + "] 修改客户备注失败！该客户编号:["+customerId+"] 修改备注失败：" +record);
-            logger.error("[CustomerController] editRecord error: " + e.getMessage());
+            logger.error("[CustomerController] editRecord error: ", e);
             return new ResultResponse(400, e.getMessage(), null);
         }
     }
@@ -503,7 +521,7 @@ public class CustomerController {
         try {
             return new ResultResponse(200, "", userService.getAllUser());
         }catch (Exception e){
-            logger.error("[CustomerController] getAllUser error: " + e.getMessage());
+            logger.error("[CustomerController] getAllUser error: ", e);
             return new ResultResponse(400, e.getMessage(), null);
         }
     }
@@ -522,7 +540,7 @@ public class CustomerController {
             return new ResultResponse(200, "", null);
         }catch (Exception e){
             logger.info("[用户:" + user1.getName() + "] 分配客户给用户失败！该客户编号:["+id+"] 未分配给的用户编号为：" +userId);
-            logger.error("[CustomerController] changeUserToCustomer error: " + e.getMessage());
+            logger.error("[CustomerController] changeUserToCustomer error: ", e);
             return new ResultResponse(400, e.getMessage(), null);
         }
     }
@@ -535,7 +553,7 @@ public class CustomerController {
             map.put("rows",  customerService.setProfession());
             map.put("code", 0);
         }catch (Exception e){
-            logger.error("[CustomerController] setProfession error: " + e.getMessage());
+            logger.error("[CustomerController] setProfession error: ", e);
             map.put("msg", e.getMessage());
             map.put("code", 1);
         }
@@ -550,7 +568,7 @@ public class CustomerController {
             map.put("rows",  customerService.getAllIdea());
             map.put("code", 0);
         }catch (Exception e){
-            logger.error("[CustomerController] setIdea error: " + e.getMessage());
+            logger.error("[CustomerController] setIdea error: ", e);
             map.put("msg", e.getMessage());
             map.put("code", 1);
         }
@@ -565,7 +583,7 @@ public class CustomerController {
             map.put("rows",   customerService.getAllSource());
             map.put("code", 0);
         }catch (Exception e){
-            logger.error("[CustomerController] setSource error: " + e.getMessage());
+            logger.error("[CustomerController] setSource error: ", e);
             map.put("msg", e.getMessage());
             map.put("code", 1);
         }
@@ -586,7 +604,7 @@ public class CustomerController {
             return new ResultResponse(200, "", null);
         }catch (Exception e){
             logger.info("[用户:" + user1.getName() + "] 添加证书失败！证书名称为：" +title);
-            logger.error("[CustomerController] addTitle error: " + e.getMessage());
+            logger.error("[CustomerController] addTitle error: ", e);
             return new ResultResponse(400, e.getMessage(), null);
         }
     }
@@ -605,7 +623,7 @@ public class CustomerController {
             return new ResultResponse(200, "", null);
         }catch (Exception e){
             logger.info("[用户:" + user1.getName() + "] 添加专业失败！专业名称为：" +profession);
-            logger.error("[CustomerController] addProfession error: " + e.getMessage());
+            logger.error("[CustomerController] addProfession error: ", e);
             return new ResultResponse(400, e.getMessage(), null);
         }
     }
@@ -624,7 +642,7 @@ public class CustomerController {
             return new ResultResponse(200, "", null);
         }catch (Exception e){
             logger.info("[用户:" + user1.getName() + "] 添加意愿失败！意愿名称为：" +idea);
-            logger.error("[CustomerController] addIdea error: " + e.getMessage());
+            logger.error("[CustomerController] addIdea error: ", e);
             return new ResultResponse(400, e.getMessage(), null);
         }
     }
@@ -643,7 +661,7 @@ public class CustomerController {
             return new ResultResponse(200, "", null);
         }catch (Exception e){
             logger.info("[用户:" + user1.getName() + "] 添加来源失败！意愿名称为：" +source);
-            logger.error("[CustomerController] addSource error: " + e.getMessage());
+            logger.error("[CustomerController] addSource error: ", e);
             return new ResultResponse(400, e.getMessage(), null);
         }
     }
@@ -662,7 +680,7 @@ public class CustomerController {
             return new ResultResponse(200, "",null);
         }catch (Exception e){
             logger.info("[用户:" + user1.getName() + "] 编辑意愿失败！意愿名称为：" +idea);
-            logger.error("[CustomerController] editIdea error: " + e.getMessage());
+            logger.error("[CustomerController] editIdea error: ", e);
             return new ResultResponse(400, e.getMessage(), null);
         }
     }
@@ -681,7 +699,7 @@ public class CustomerController {
             return new ResultResponse(200, "", null);
         }catch (Exception e){
             logger.info("[用户:" + user1.getName() + "] 编辑来源失败！来源名称为：" +source);
-            logger.error("[CustomerController] editSource error: " + e.getMessage());
+            logger.error("[CustomerController] editSource error: ", e);
             return new ResultResponse(400, e.getMessage(), null);
         }
     }
@@ -700,7 +718,7 @@ public class CustomerController {
             return new ResultResponse(200, "", null);
         }catch (Exception e){
             logger.info("[用户:" + user1.getName() + "] 编辑专业失败！专业名称为：" +profession);
-            logger.error("[CustomerController] editProfession error: " + e.getMessage());
+            logger.error("[CustomerController] editProfession error: ", e);
             return new ResultResponse(400, e.getMessage(), null);
         }
     }
