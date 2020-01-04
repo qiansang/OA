@@ -91,7 +91,7 @@ function getTableInfo() {
             even: false //开启隔行背景
             , elem: '#table_test'
             , toolbar: '#toolbarDemo'
-            , url: 'getCustomerInfo'
+            , url: 'getCustomerInfoForAllUser'
             , method: 'post'
             , request: {
                 pageName: 'pageNumber' //页码的参数名称，默认：page
